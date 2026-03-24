@@ -41,10 +41,37 @@ function CardUI()
         }
     };
 
-    function searchCard(event:any) : void
+    async function searchCard(event:any) : Promise<void>
     {
         event.preventDefault();
-        alert('searchCard() ' + search);
+        
+        let obj = {userId:userId, search:search};
+        let js = JSON.stringify(obj);
+
+        try
+        {
+            const response = await fetch('http://localhost:5000/api/searchcards', {method:'POST', body:js, headers:{'Content-Type':'application/json'}});
+
+            let txt = await response.text();
+            let res = JSON.parse(txt);
+            let _results = res.results;
+            let resultText = '';
+            for(let i = 0; i < _results.length; i++)
+            {
+                resultText += _results[i];
+                if( i < _results.length - 1)
+                {
+                    resultText += ', ';
+                }
+            }
+            setResults('Card(s) have been retrieved');
+            setCardList(resultText);
+        }
+        catch(error:any)
+        {
+            alert(error.toString());
+            setResults(error.toString());
+        }
     };
 
     function handleSearchTextChange(e:any) : void
