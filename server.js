@@ -199,6 +199,6 @@ app.post('/api/searchcards', async(req, res, next) =>
         _ret.push(results[i].Card);
     }
 
-    var ret = {results:_ret, error: ''};
+    var ret = {results:_ret, error:error};
     res.status(200).json(ret);
 });
