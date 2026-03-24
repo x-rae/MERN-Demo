@@ -131,7 +131,7 @@ app.post('/api/addcard', async(req, res, next) =>
 
     var error = '';
 
-    const {userID, card} = req.body;
+    const {userId, card} = req.body;
 
     //TEMP FOR LOCAL TESTING
     cardList.push(card);
