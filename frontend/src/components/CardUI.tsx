@@ -12,10 +12,33 @@ function CardUI()
     const [search, setSearchValue] = React.useState('');
     const [card, setCardNameValue] = React.useState('');
 
-    function addCard(event:any) : void
+    async function addCard(event:any) : Promise<void>
     {
         event.preventDefault();
-        alert('addCard() ' + card);
+        
+        let obj = {userId:userId, card:card};
+        let js = JSON.stringify(obj);
+
+        try
+        {
+            const response = await fetch('http://localhost:5000/api/addcard', {method:'POST', body:js, headers:{'Content-Type':'application/json'}});
+
+            let txt = await response.text();
+            let res = JSON.parse(txt);
+
+            if(res.error.length > 0)
+            {
+                setMessage("API Error: " + res.error);
+            }
+            else
+            {
+                setMessage('Card has been added');
+            }
+        }
+        catch(error:any)
+        {
+            setMessage(error.toString());
+        }
     };
 
     function searchCard(event:any) : void
