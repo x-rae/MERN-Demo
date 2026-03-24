@@ -188,16 +188,15 @@ app.post('/api/searchcards', async(req, res, next) =>
     var error = '';
 
     const {userId, search} = req.body;
-    var _search = search.toLowerCase().trim();
+    var _search = search.trim();
+
+    const db = client.db('COP4331Cards');
+    const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*', $options:'i'}}).toArray();
     var _ret = [];
 
-    for(var i = 0; i < cardList.length; i++)
+    for(var i = 0; i < results.length; i++)
     {
-        var lowerFromList = cardList[i].toLocaleLowerCase();
-        if(lowerFromList.indexOf(_search) >= 0)
-        {
-            _ret.push(cardList[i]);
-        }
+        _ret.push(results[i].Card);
     }
 
     var ret = {results:_ret, error: ''};
