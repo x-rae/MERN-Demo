@@ -133,8 +133,17 @@ app.post('/api/addcard', async(req, res, next) =>
 
     const {userId, card} = req.body;
 
-    //TEMP FOR LOCAL TESTING
-    cardList.push(card);
+    const newCard = {Card:card, UserId:userId};
+
+    try
+    {
+        const db = client.db('COP4331Cards');
+        const result = db.collection('Cards').insertOne(newCard);
+    }
+    catch (e)
+    {
+        error = e.toString();
+    }
 
     var ret = {error: error};
     res.status(200).json(ret);
