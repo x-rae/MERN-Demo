@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 
 function CardUI()
 {
+    let _ud : any = localStorage.getItem('user_data');
+    let ud = JSON.parse(_ud);
+    let userId : string = ud.id;
     //idk why some of these are just useState instead of React.useState
     const [message, setMessage] = useState('');
     const [searchResults, setResults] = useState('');
